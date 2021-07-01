@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur3_description)/urdf/ur3_robot.urdf.xacro'"/>
+	
+	<arg name="x" default="0"/>
+	<arg name="y" default="0"/>
+	<arg name="z" default="0.5"/>
+	
+	<node name="myrobot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+		args="-urdf -param robot_description -model ur3 -x $(arg x) -y $(arg y) -z $(arg z)" />
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    <param name="use_gui" value="true"/>
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ur_description)/cfg/view_robot.rviz" required="true" />
+
+	</launch>
